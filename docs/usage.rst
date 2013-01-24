@@ -19,7 +19,7 @@ announcements::
                     <strong>{{ announcement.title }}</strong><br />
                     {{ announcement.content }}
                     {% if announcement.dismiss_url %}
-                        <a href="{{ announcement.dismiss_url }}" class="dismiss">
+                        <a href="{{ announcement.dismiss_url }}" class="ajax" data-clear-closest=".announcement">
                             Clear
                         </a>
                     {% endif %}
@@ -35,5 +35,5 @@ the supplied detail view::
     <a href="{{ announcement.get_absolute_url }}">Read more...</a>
 
 
-The `announcement.clear_url` is intended to be called via an AJAX POST
-and will dismiss the announcement based on it's dismissal properties.
+The `announcement.dismiss_url` is intended to be called via an AJAX POST
+and will dismiss the announcement based on it's dismissal properties::

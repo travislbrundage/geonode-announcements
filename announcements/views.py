@@ -1,3 +1,5 @@
+import json
+
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
@@ -29,7 +31,7 @@ def dismiss(request, pk):
         status = 200
     else:
         status = 409
-    return HttpResponse(status=status)
+    return HttpResponse(json.dumps({}), status=status, mimetype="application/json")
 
 
 def detail(request, pk):

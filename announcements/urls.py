@@ -1,4 +1,7 @@
-from django.conf.urls.defaults import *
+try:
+    from django.conf.urls import url, patterns
+except ImportError:
+    from django.conf.urls.defaults import url, patterns
 
 from announcements.views import detail, dismiss
 from announcements.views import CreateAnnouncementView, UpdateAnnouncementView

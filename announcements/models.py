@@ -12,6 +12,20 @@ except ImportError:
 else:
     User = get_user_model()
 
+class AnnouncementType(models.Model):
+    identifier = models.CharField(max_length=255, editable=False)
+    name = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+    severity = models.PositiveSmallIntegerField(null=True, default=0,help_text=_('A positive integer representing the severity of the announcement.  The severity increases as the value increases.'))
+    urgency = models.PositiveSmallIntegerField(null=True, default=0,help_text=_('A positive integer respresenting the urgency of the announcement.  The urgency increases as the value increases.'))
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ("-severity","-urgency",)
+        verbose_name_plural = _("Announcement Types")
+
 class Announcement(models.Model):
     """
     A single announcement.
@@ -27,6 +41,7 @@ class Announcement(models.Model):
     ]
     
     title = models.CharField(_("title"), max_length=50)
+    type = models.ForeignKey(AnnouncementType, null=True, blank=True)
     content = models.TextField(_("content"))
     creator = models.ForeignKey(User, verbose_name=_("creator"))
     creation_date = models.DateTimeField(_("creation_date"), default=timezone.now)

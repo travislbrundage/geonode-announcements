@@ -17,11 +17,11 @@ else:
         username_search = "user__username"
 
 class AnnouncementAdmin(admin.ModelAdmin):
-    list_display = ("title", "creator", "creation_date", "members_only")
+    list_display = ("title", "type", "creator", "creation_date", "members_only")
     list_filter = ("members_only",)
     fieldsets = [
         (None, {
-            "fields": ["title", "content", "site_wide", "members_only", "publish_start", "publish_end", "dismissal_type"],
+            "fields": ["title", "type", "content", "site_wide", "members_only", "publish_start", "publish_end", "dismissal_type"],
         }),
     ]
 

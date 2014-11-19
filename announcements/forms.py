@@ -9,7 +9,7 @@ class AnnouncementForm(forms.ModelForm):
         model = Announcement
         fields = [
             "title",
-            "type",
+            "level",
             "content",
             "site_wide",
             "members_only",

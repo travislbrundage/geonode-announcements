@@ -12,20 +12,6 @@ except ImportError:
 else:
     User = get_user_model()
 
-class AnnouncementType(models.Model):
-    identifier = models.CharField(max_length=255, editable=False)
-    name = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True)
-    severity = models.PositiveSmallIntegerField(null=True, default=0,help_text=_('A positive integer representing the severity of the announcement.  The severity increases as the value increases.'))
-    urgency = models.PositiveSmallIntegerField(null=True, default=0,help_text=_('A positive integer respresenting the urgency of the announcement.  The urgency increases as the value increases.'))
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        ordering = ("-severity","-urgency",)
-        verbose_name_plural = _("Announcement Types")
-
 class Announcement(models.Model):
     """
     A single announcement.
@@ -39,9 +25,19 @@ class Announcement(models.Model):
         (DISMISSAL_SESSION, _("Session Only Dismissal")),
         (DISMISSAL_PERMANENT, _("Permanent Dismissal Allowed"))
     ]
+
+    LEVEL_GENERAL = 1
+    LEVEL_WARNING = 2
+    LEVEL_CRITICAL = 3
+
+    LEVEL_CHOICES = [
+        (LEVEL_GENERAL, _("General")),
+        (LEVEL_WARNING, _("Warning")),
+        (LEVEL_CRITICAL, _("Critical"))
+    ]
     
     title = models.CharField(_("title"), max_length=50)
-    type = models.ForeignKey(AnnouncementType, null=True, blank=True)
+    level = models.IntegerField(choices=LEVEL_CHOICES, default=LEVEL_GENERAL)
     content = models.TextField(_("content"))
     creator = models.ForeignKey(User, verbose_name=_("creator"))
     creation_date = models.DateTimeField(_("creation_date"), default=timezone.now)
@@ -57,7 +53,20 @@ class Announcement(models.Model):
     def dismiss_url(self):
         if self.dismissal_type != Announcement.DISMISSAL_NO:
             return reverse("announcements_dismiss", args=[self.pk])
-    
+
+    @property
+    def level_css(self):
+        if self.level==self.LEVEL_WARNING:
+            return "alert-warning"
+        elif self.level==self.LEVEL_CRITICAL:
+            return "alert-danger"
+        else:
+            return ""
+
+    @property
+    def level_label(self):
+        return self.get_level_display()
+
     def __unicode__(self):
         return self.title
     

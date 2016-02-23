@@ -1,16 +1,17 @@
+from django.conf import settings
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-# support custom user models in django 1.5+
-# https://docs.djangoproject.com/en/1.5/topics/auth/customizing/#substituting-a-custom-user-model
+# support custom user models in django 1.7+
+# https://docs.djangoproject.com/en/1.7/topics/auth/customizing/#substituting-a-custom-user-model
 try:
     from django.contrib.auth import get_user_model
 except ImportError:
     from django.contrib.auth.models import User
 else:
-    User = get_user_model()
+    User = settings.AUTH_USER_MODEL
 
 class Announcement(models.Model):
     """

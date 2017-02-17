@@ -38,13 +38,21 @@ class Announcement(models.Model):
     ]
     
     title = models.CharField(_("title"), max_length=50)
-    level = models.IntegerField(choices=LEVEL_CHOICES, default=LEVEL_GENERAL)
+    level = models.IntegerField(
+        _("level"),
+        choices=LEVEL_CHOICES,
+        default=LEVEL_GENERAL
+    )
     content = models.TextField(_("content"))
     creator = models.ForeignKey(User, verbose_name=_("creator"))
     creation_date = models.DateTimeField(_("creation_date"), default=timezone.now)
     site_wide = models.BooleanField(_("site wide"), default=False)
     members_only = models.BooleanField(_("members only"), default=False)
-    dismissal_type = models.IntegerField(choices=DISMISSAL_CHOICES, default=DISMISSAL_SESSION)
+    dismissal_type = models.IntegerField(
+        _("dismissal type"),
+        choices=DISMISSAL_CHOICES,
+        default=DISMISSAL_SESSION
+    )
     publish_start = models.DateTimeField(_("publish_start"), default=timezone.now)
     publish_end = models.DateTimeField(_("publish_end"), blank=True, null=True)
     
@@ -77,6 +85,17 @@ class Announcement(models.Model):
 
 
 class Dismissal(models.Model):
-    user = models.ForeignKey(User, related_name="announcement_dismissals")
-    announcement = models.ForeignKey(Announcement, related_name="dismissals")
-    dismissed_at = models.DateTimeField(default=timezone.now)
+    user = models.ForeignKey(
+        User,
+        related_name="announcement_dismissals",
+        verbose_name=_("user")
+    )
+    announcement = models.ForeignKey(
+        Announcement,
+        related_name="dismissals",
+        verbose_name=_("announcement")
+    )
+    dismissed_at = models.DateTimeField(
+        _("dismissed at"),
+        default=timezone.now
+    )

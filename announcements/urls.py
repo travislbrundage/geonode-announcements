@@ -11,3 +11,4 @@ urlpatterns = [  # "",
     url(r"^announcement/(?P<pk>\d+)/hide/$", dismiss, name="announcements_dismiss"),
     url(r"^announcement/(?P<pk>\d+)/update/$", UpdateAnnouncementView.as_view(), name="announcements_update"),
     url(r"^announcement/(?P<pk>\d+)/delete/$", DeleteAnnouncementView.as_view(), name="announcements_delete"),
+]

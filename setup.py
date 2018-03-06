@@ -108,7 +108,7 @@ NAME = "geonode-announcements"
 DESCRIPTION = "Fork of pinax/django-announcements. Announcements for your Django powered website."
 AUTHOR = "Brian Rosner"
 AUTHOR_EMAIL = "brosner@gmail.com"
-URL = "https://github.com/GeoNode/django-announcements"
+URL = "https://github.com/GeoNode/geonode-announcements"
 VERSION = __import__(PACKAGE).__version__
 
 

@@ -1,6 +1,6 @@
 import json
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.template.response import TemplateResponse
@@ -26,7 +26,7 @@ def dismiss(request, pk):
         request.session["excluded_announcements"] = excluded
         status = 200
     elif announcement.dismissal_type == Announcement.DISMISSAL_PERMANENT and \
-         request.user.is_authenticated():
+         request.user.is_authenticated:
         announcement.dismissals.create(user=request.user)
         status = 200
     else:

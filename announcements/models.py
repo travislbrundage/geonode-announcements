@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -44,7 +44,7 @@ class Announcement(models.Model):
         default=LEVEL_GENERAL
     )
     content = models.TextField(_("content"))
-    creator = models.ForeignKey(User, verbose_name=_("creator"))
+    creator = models.ForeignKey(User, verbose_name=_("creator"), on_delete=models.CASCADE)
     creation_date = models.DateTimeField(_("creation_date"), default=timezone.now)
     site_wide = models.BooleanField(_("site wide"), default=False)
     members_only = models.BooleanField(_("members only"), default=False)
@@ -88,12 +88,14 @@ class Dismissal(models.Model):
     user = models.ForeignKey(
         User,
         related_name="announcement_dismissals",
-        verbose_name=_("user")
+        verbose_name=_("user"),
+        on_delete=models.CASCADE
     )
     announcement = models.ForeignKey(
         Announcement,
         related_name="dismissals",
-        verbose_name=_("announcement")
+        verbose_name=_("announcement"),
+        on_delete=models.CASCADE
     )
     dismissed_at = models.DateTimeField(
         _("dismissed at"),

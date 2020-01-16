@@ -31,8 +31,12 @@ class AnnouncementsNode(template.Node):
                 site_wide=True
             )
 
-            exclusions = request.session.get("excluded_announcements", set())
-            if request.user.is_authenticated():
+            if hasattr(request, 'session'):
+                exclusions = request.session.get(
+                    "excluded_announcements", set())
+            else:
+                exclusions = set()
+            if hasattr(request, 'user') and request.user.is_authenticated:
                 for dismissal in request.user.announcement_dismissals.all():
                     exclusions.add(dismissal.announcement.pk)
             else:

@@ -53,7 +53,8 @@ class Migration(migrations.Migration):
                 ('publish_start',
                     models.DateTimeField(default=django.utils.timezone.now, verbose_name='publish_start')),
                 ('publish_end', models.DateTimeField(null=True, verbose_name='publish_end', blank=True)),
-                ('creator', models.ForeignKey(verbose_name='creator', to=settings.AUTH_USER_MODEL)),
+                ('creator', models.ForeignKey(verbose_name='creator',
+                                              to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'announcement',
@@ -65,8 +66,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('dismissed_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('announcement', models.ForeignKey(related_name='dismissals', to='announcements.Announcement')),
-                ('user', models.ForeignKey(related_name='announcement_dismissals', to=settings.AUTH_USER_MODEL)),
+                ('announcement', models.ForeignKey(related_name='dismissals',
+                                                   to='announcements.Announcement', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(related_name='announcement_dismissals',
+                                           to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
         ),
     ]

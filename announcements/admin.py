@@ -16,12 +16,14 @@ else:
     else:
         username_search = "user__username"
 
+
 class AnnouncementAdmin(admin.ModelAdmin):
     list_display = ("title", "level", "creator", "creation_date", "members_only")
     list_filter = ("members_only",)
     fieldsets = [
         (None, {
-            "fields": ["title", "level", "content", "site_wide", "members_only", "publish_start", "publish_end", "dismissal_type"],
+            "fields": ["title", "level", "content", "site_wide", "members_only", "publish_start", "publish_end",
+                       "dismissal_type"],
         }),
     ]
 
@@ -31,9 +33,11 @@ class AnnouncementAdmin(admin.ModelAdmin):
             obj.creator = request.user
         obj.save()
 
+
 class DismissalAdmin(admin.ModelAdmin):
     list_display = ("user", "announcement", "dismissed_at")
     search_fields = (username_search, "announcement__title")
+
 
 admin.site.register(Announcement, AnnouncementAdmin)
 admin.site.register(Dismissal, DismissalAdmin)
